@@ -15,12 +15,15 @@ use App\Http\Controllers\clientsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 Route::middleware('auth')->get('/getClients', [clientsController::class, 'getClients']);
 /*Route::middleware('auth')->get('/getClients', function(Request $request){
     return $request->user()->clients;
 });*/
+Route::middleware('auth')->get('/user', function (Request $request) {
+    return $request->user();
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

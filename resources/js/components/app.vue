@@ -1,97 +1,105 @@
 <template>
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+        <div class="row">
+            <nav class="navbar navbar-expand-lg px-5 navbar-light bg-light" style="background-color: #011b48b8 !important; border: 0px !important">
+                <div class="container-fluid">
+                    <a class="navbar-brand text-white" href="#"><strong>Buy2Go Credit</strong></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item px-3">
+                                <router-link class="a-admin text-white" to="/profile">
+                                    <span class="fa fa-user-cog pr-2" style="font-size: 20px"></span><strong> {{ user.name }}</strong>
+                                </router-link>
+                            </li>
+                            <li class="nav-item px-3">
+                                <a @click="logout()" class="text-white" style="cursor:pointer">
+                                <span class="fa fa-power-off" style="font-size: 20px"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>   
+        </div>
+        <div class="row p-0" style="background-image: url('/storage/settings/credit.png');background-position:top;background-size: cover; background-repeat: no-repeat;min-height: 50vh;"> 
+            <div class="container-fluid m-0 d-flex align-items-center" style="background-color: #011b48b8">
+                <div class="row m-5">
+                    <div class="container">
+                        <div class="col-md-4">
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </nav>     
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <h4>Here are a list of your clients</h4>
-                <div v-for="client,index in clients" :key="index">
-                    <h5>
-                        Client Name: {{ client.name }}
-                    </h5>
-                    <h5>
-                        Client ID: {{ client.id }}
-                    </h5>
-                    <h5>
-                        Client Secret: {{ client.secret }}
-                    </h5>
-                    <h5>
-                        Redirect URL: {{ client.redirect }}
-                    </h5>
+        <div class="container" style="margin-top:-15vh">
+            <div class="row">
+                <div class="col-md-4 mt-2" style="cursor:pointer">
+                    <div @click="addModal()" class="bg-white rounded-2 shadow-sm " style="height:25vh">
+                        <div class="row" style="height:100%">
+                            <div class="col-md-12 text-center align-self-center">
+                                <span class="fa fa-plus fs-3"></span>
+                                <h5>Add Project</h5>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
-
+                <div v-for="client,index in clients" :key="index" class="col-md-4 mt-2 ">
+                    <div class="bg-white rounded-2 shadow-sm p-3" style="height:25vh">
+                        <h4>
+                           <strong>{{ client.name }}</strong> 
+                        </h4>
+                        <h6>
+                            Client ID: {{ client.id }}
+                        </h6>
+                    <h6>
+                        Client Secret: {{ client.secret }}
+                    </h6>
+                    <h6>
+                        Redirect URL: {{ client.redirect }}
+                    </h6>
+                    </div>
+                </div>
                 
             </div>
-            <form action="#" @submit.prevent="addClient">
-                <div class="col-md-3 mt-3">
-                    <input type="text" class="form-control" v-model="formData.name" placeholder="App Name">
-                </div>
-                <div class="col-md-3 mt-3">
-                    <input type="text" class="form-control" v-model="formData.redirect" placeholder="Redirect URL">
-                </div>
-                <div class="col-md-3 mt-3">
-                    <button type="submit" class="btn btn-primary form-control">Add Client</button>
-                </div>
-            </form>
-
-        </div>   
+        </div>
     </div>
 
 </template>
 
 <script>
+import addModalVue from './addModal.vue'
     export default {
         data(){
             return{
                 clients:{},
-                formData:{
-                    name:null,
-                    redirect:null
-                }
+                user:{}
             }
         },
         mounted() {
             this.getClients()
+            this.getUser()
         },
         methods:{
-            async addClient(){
-                await axios.post('/oauth/clients', this.formData)
+            async logout(){
+                await axios.post('/logout')
                 .then( response =>{
-                    this.getClients()
+                    window.location.replace('/')
+                })
+            },
+            async getUser(){
+                await axios.get('/user')
+                .then( response =>{
+                    this.user = response.data
+                })
+                .catch( error =>{
+                    if(error.response.status == 401){
+                        window.location.replace('/login')
+                    }
                 })
             },
             async getClients(){
@@ -99,6 +107,14 @@
                 .then( response =>{
                     this.clients = response.data
                 })
+            },
+            addModal(){
+                this.$modal.show(
+                    addModalVue,
+                    {},
+                    {height:'auto',width:'500px'},
+                    {'closed':this.getClients}
+                )
             }
         }
     }
