@@ -14,6 +14,9 @@ use App\Http\Controllers\clientsController;
 |
 */
 Route::middleware('auth:api')->post('/test', [clientsController::class, 'test']);
+Route::middleware('auth:api')->post('/sum', function(Request $request){
+    return $request->one + $request->two;
+});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
