@@ -5364,32 +5364,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      clients: {}
+      clients: {},
+      formData: {
+        name: null,
+        redirect: null
+      }
     };
   },
   mounted: function mounted() {
     this.getClients();
   },
   methods: {
-    getClients: function getClients() {
+    addClient: function addClient() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios.get('/getClients').then(function (response) {
-                _this.clients = response.data;
+              return axios.post('/oauth/clients', _this.formData).then(function (response) {
+                _this.getClients();
               });
             case 2:
             case "end":
               return _context.stop();
           }
         }, _callee);
+      }))();
+    },
+    getClients: function getClients() {
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return axios.get('/getClients').then(function (response) {
+                _this2.clients = response.data;
+              });
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
       }))();
     }
   }
@@ -28220,10 +28266,102 @@ var render = function () {
       _c(
         "div",
         { staticClass: "col-md-12" },
-        _vm._l(_vm.clients, function (client, index) {
-          return _c("h5", { key: index }, [_vm._v(_vm._s(client))])
-        }),
-        0
+        [
+          _c("h4", [_vm._v("Here are a list of your clients")]),
+          _vm._v(" "),
+          _vm._l(_vm.clients, function (client, index) {
+            return _c("div", { key: index }, [
+              _c("h5", [
+                _vm._v(
+                  "\n                    Client Name: " +
+                    _vm._s(client.name) +
+                    "\n                "
+                ),
+              ]),
+              _vm._v(" "),
+              _c("h5", [
+                _vm._v(
+                  "\n                    Client ID: " +
+                    _vm._s(client.id) +
+                    "\n                "
+                ),
+              ]),
+              _vm._v(" "),
+              _c("h5", [
+                _vm._v(
+                  "\n                    Client Secret: " +
+                    _vm._s(client.secret) +
+                    "\n                "
+                ),
+              ]),
+            ])
+          }),
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          attrs: { action: "#" },
+          on: {
+            submit: function ($event) {
+              $event.preventDefault()
+              return _vm.addClient.apply(null, arguments)
+            },
+          },
+        },
+        [
+          _c("div", { staticClass: "col-md-3 mt-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.name,
+                  expression: "formData.name",
+                },
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "App Name" },
+              domProps: { value: _vm.formData.name },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.formData, "name", $event.target.value)
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3 mt-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.redirect,
+                  expression: "formData.redirect",
+                },
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Redirect URL" },
+              domProps: { value: _vm.formData.redirect },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.formData, "redirect", $event.target.value)
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _vm._m(1),
+        ]
       ),
     ]),
   ])
@@ -28384,6 +28522,21 @@ var staticRenderFns = [
         ]),
       ]
     )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3 mt-3" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary form-control",
+          attrs: { type: "submit" },
+        },
+        [_vm._v("Add Client")]
+      ),
+    ])
   },
 ]
 render._withStripped = true

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\clientsController;
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::middleware('auth')->get('/getClients', [clientsController::class, 'getClients']);
-
+/*Route::middleware('auth')->get('/getClients', function(Request $request){
+    return $request->user()->clients;
+});*/
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

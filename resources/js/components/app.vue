@@ -38,8 +38,33 @@
         </nav>     
         <div class="row mt-3">
             <div class="col-md-12">
-                <h5 v-for="client,index in clients" :key="index">{{ client }}</h5>
+                <h4>Here are a list of your clients</h4>
+                <div v-for="client,index in clients" :key="index">
+                    <h5>
+                        Client Name: {{ client.name }}
+                    </h5>
+                    <h5>
+                        Client ID: {{ client.id }}
+                    </h5>
+                    <h5>
+                        Client Secret: {{ client.secret }}
+                    </h5>
+                </div>
+
+                
             </div>
+            <form action="#" @submit.prevent="addClient">
+                <div class="col-md-3 mt-3">
+                    <input type="text" class="form-control" v-model="formData.name" placeholder="App Name">
+                </div>
+                <div class="col-md-3 mt-3">
+                    <input type="text" class="form-control" v-model="formData.redirect" placeholder="Redirect URL">
+                </div>
+                <div class="col-md-3 mt-3">
+                    <button type="submit" class="btn btn-primary form-control">Add Client</button>
+                </div>
+            </form>
+
         </div>   
     </div>
 
@@ -49,13 +74,23 @@
     export default {
         data(){
             return{
-                clients:{}
+                clients:{},
+                formData:{
+                    name:null,
+                    redirect:null
+                }
             }
         },
         mounted() {
             this.getClients()
         },
         methods:{
+            async addClient(){
+                await axios.post('/oauth/clients', this.formData)
+                .then( response =>{
+                    this.getClients()
+                })
+            },
             async getClients(){
                 await axios.get('/getClients')
                 .then( response =>{
