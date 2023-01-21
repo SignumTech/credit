@@ -5389,6 +5389,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -28291,6 +28294,14 @@ var render = function () {
                 _vm._v(
                   "\n                    Client Secret: " +
                     _vm._s(client.secret) +
+                    "\n                "
+                ),
+              ]),
+              _vm._v(" "),
+              _c("h5", [
+                _vm._v(
+                  "\n                    Redirect URL: " +
+                    _vm._s(client.redirect) +
                     "\n                "
                 ),
               ]),

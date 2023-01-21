@@ -49,6 +49,9 @@
                     <h5>
                         Client Secret: {{ client.secret }}
                     </h5>
+                    <h5>
+                        Redirect URL: {{ client.redirect }}
+                    </h5>
                 </div>
 
                 
