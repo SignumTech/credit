@@ -33,7 +33,7 @@ class creditsController extends Controller
         elseif(Carbon::now()->diffInMonths($created_at->subMonths(6)->addMonths(6)) == 0){
             return 2*0.25;
         }
-        elseif(Carbon::now()->between($created_at->subMonths(6)->addMonths(6), $created_at->subMonths(6)->addMonths(12))){
+        elseif(Carbon::now()->diffInMonths($created_at->subMonths(6)->addMonths(12)) <= 6 && Carbon::now()->diffInMonths($created_at->subMonths(6)->addMonths(12)) >0){
             return 3*0.25;
         }
         else{

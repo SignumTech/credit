@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\clientsController;
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,9 @@ use App\Http\Controllers\clientsController;
 
 Route::get('/', function () {
     return view('home');
+});
+Route::get('/test', function () {
+    var_dump(Carbon::now()->diffInMonths(Carbon::parse('2022-12-01')->addMonths(3)));
 });
 Route::middleware('auth')->get('/getClients', [clientsController::class, 'getClients']);
 /*Route::middleware('auth')->get('/getClients', function(Request $request){
