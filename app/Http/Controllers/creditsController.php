@@ -30,8 +30,8 @@ class creditsController extends Controller
         $today = Carbon::parse('2023-01-22');
         var_dump($created_at->toDateString());
         var_dump($today->toDateString());
-        var_dump($today->greaterThan($created_at));
-        if(Carbon::now()->greaterThan($created_at->addMonths(6))){
+        var_dump($today->lessThan($created_at));
+        if(Carbon::now()->lessThan($created_at->addMonths(6))){
             return 1*0.25;
         }
         elseif(Carbon::now()->toDateString() == $created_at->addMonths(6)->toDateString()){
