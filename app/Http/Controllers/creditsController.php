@@ -27,6 +27,10 @@ class creditsController extends Controller
 
     public function businessExperienceScore($created_at){
         $created_at = Carbon::parse($created_at);
+        $today = Carbon::parse('2023-01-22');
+        var_dump($created_at->toDateString());
+        var_dump($today->toDateString());
+        var_dump($today->greaterThan($created_at));
         if(Carbon::now()->greaterThan($created_at->addMonths(6))){
             return 1*0.25;
         }
