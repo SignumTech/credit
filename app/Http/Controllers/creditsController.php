@@ -20,7 +20,7 @@ class creditsController extends Controller
         $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));
         $sum += $this->businessTypeScore($request->business_type);
 
-        return $sum>$cutoff;
+        return $sum;
 
     }
 
