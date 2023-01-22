@@ -31,7 +31,7 @@ class creditsController extends Controller
         
         var_dump($created_at->toDateString());
         var_dump($created_at->addMonths(6)->toDateString());
-        var_dump($created_at->toDateString());
+        var_dump($created_at->subMoths(6)->toDateString());
         var_dump($today->toDateString());
         var_dump($today->lessThan($created_at));
         var_dump($today->diffInMonths($created_at));
