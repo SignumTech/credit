@@ -45,7 +45,7 @@ class creditsController extends Controller
         if($estimation == 'BAD'){
             return 1*0.25;
         }
-        elseif($esitmation == 'MEDIUM'){
+        elseif($estimation == 'MEDIUM'){
             return 2*0.25;
         }
         elseif($estimation == 'GOOD'){
