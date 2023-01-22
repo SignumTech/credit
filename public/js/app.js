@@ -5461,8 +5461,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 
@@ -5473,9 +5471,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       user: {}
     };
   },
+  beforeMount: function beforeMount() {
+    this.getUser();
+  },
   mounted: function mounted() {
     this.getClients();
-    this.getUser();
   },
   methods: {
     showSecret: function showSecret(secret) {

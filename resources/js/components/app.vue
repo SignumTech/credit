@@ -69,9 +69,7 @@
             </div>
         </div>
     </div>
-
 </template>
-
 <script>
 import addModalVue from './addModal.vue'
 import showSecretVue from './showSecret.vue'
@@ -82,9 +80,11 @@ import showSecretVue from './showSecret.vue'
                 user:{}
             }
         },
+        beforeMount(){
+            this.getUser();
+        },
         mounted() {
             this.getClients()
-            this.getUser()
         },
         methods:{
             showSecret(secret){

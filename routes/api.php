@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\clientsController;
+use App\Http\Controllers\creditsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +14,7 @@ use App\Http\Controllers\clientsController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware('auth:api')->post('/creditWorthiness', [creditsController::class, 'creditWorthiness']);
 Route::middleware('auth:api')->post('/test', [clientsController::class, 'test']);
 Route::middleware('auth:api')->post('/sum', function(Request $request){
     return $request->one + $request->two;
