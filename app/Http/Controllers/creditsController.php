@@ -26,15 +26,7 @@ class creditsController extends Controller
     }
 
     public function businessExperienceScore($created_at){
-        $created_at = Carbon::parse($created_at);
-        $today = Carbon::parse('2023-01-22');
         
-        var_dump($created_at->toDateString());
-        var_dump($created_at->addMonths(6)->toDateString());
-        var_dump($created_at->subMonths(6)->toDateString());
-        var_dump($today->toDateString());
-        var_dump($today->lessThan($created_at));
-        var_dump($today->diffInMonths($created_at));
         if(Carbon::now()->lessThan($created_at->addMonths(6))){
             return 1*0.25;
         }
@@ -70,10 +62,10 @@ class creditsController extends Controller
         if(Carbon::now()->lessThan($latest_order_date->addMonths(3))){
             return 1*0.25;
         }
-        elseif(Carbon::now()->toDateString() == $latest_order_date->addMonths(2)->toDateString()){
+        elseif(Carbon::now()->diffInMonths($created_at->subMonths(3)->addMonths(2)) == 0){
             return 2*0.25;
         }
-        elseif(Carbon::now()->toDateString() == $latest_order_date->addMonths(1)->toDateString()){
+        elseif(Carbon::now()->diffInMonths($created_at->subMonths(2)->addMonths(1)) == 0){
             return 3*0.25;
         }
         else{
