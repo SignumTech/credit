@@ -15,7 +15,7 @@ class creditsController extends Controller
         ]);
         $sum = 0;
         $cutoff = 2;
-        var_dump(Carbon::now($created_at));
+        var_dump(Carbon::parse($request->created_at));
         $sum += $this->businessExperienceScore(Carbon::parse($request->created_at));var_dump($this->businessExperienceScore(Carbon::parse($request->created_at)));
         $sum += $this->preSaleEstimationScore($request->presale_estimation);var_dump($this->preSaleEstimationScore($request->presale_estimation));
         $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
