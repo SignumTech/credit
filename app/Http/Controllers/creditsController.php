@@ -30,7 +30,7 @@ class creditsController extends Controller
         $today = Carbon::parse('2023-01-22');
         
         var_dump($created_at->toDateString());
-        var_dump($created_at->addMonths(6));
+        var_dump($created_at->addMonths(6)->toDateString());
         var_dump($created_at->toDateString());
         var_dump($today->toDateString());
         var_dump($today->lessThan($created_at));
