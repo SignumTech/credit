@@ -59,7 +59,7 @@ class creditsController extends Controller
 
     public function businessActivityScore($latest_order_date){
         
-        if(Carbon::now()->lessThan($latest_order_date->addMonths(3))){
+        if(Carbon::now()->greaterThan($latest_order_date->addMonths(3))){
             return 1*0.25;
         }
         elseif(Carbon::now()->diffInMonths($latest_order_date->subMonths(3)->addMonths(2)) == 0){
