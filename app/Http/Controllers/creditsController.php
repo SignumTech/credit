@@ -62,10 +62,10 @@ class creditsController extends Controller
         if(Carbon::now()->lessThan($latest_order_date->addMonths(3))){
             return 1*0.25;
         }
-        elseif(Carbon::now()->diffInMonths($created_at->subMonths(3)->addMonths(2)) == 0){
+        elseif(Carbon::now()->diffInMonths($latest_order_date->subMonths(3)->addMonths(2)) == 0){
             return 2*0.25;
         }
-        elseif(Carbon::now()->diffInMonths($created_at->subMonths(2)->addMonths(1)) == 0){
+        elseif(Carbon::now()->diffInMonths($latest_order_date->subMonths(2)->addMonths(1)) == 0){
             return 3*0.25;
         }
         else{
