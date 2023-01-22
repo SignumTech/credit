@@ -27,7 +27,7 @@ class creditsController extends Controller
 
     public function businessExperienceScore($created_at){
         
-        if(Carbon::now()->greaterThan($created_at->addMonths(6))){
+        if(Carbon::now()->lessThan($created_at->addMonths(6))){
             return 1*0.25;
         }
         elseif(Carbon::now()->diffInMonths($created_at->subMonths(6)->addMonths(6)) == 0){
@@ -59,7 +59,7 @@ class creditsController extends Controller
 
     public function businessActivityScore($latest_order_date){
         
-        if(Carbon::now()->greaterThan($latest_order_date->addMonths(3))){
+        if(Carbon::now()->lessThan($latest_order_date->addMonths(3))){
             return 1*0.25;
         }
         elseif(Carbon::now()->diffInMonths($latest_order_date->subMonths(3)->addMonths(2)) == 0){
