@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('home');
 });
 Route::get('/test', function () {
-    var_dump(Carbon::now()->diffInMonths(Carbon::parse('2022-12-01')->addMonths(3)));
+    var_dump(Carbon::now()->diffInDays(Carbon::parse('2023-01-01')->addMonths(1)));
 });
 Route::middleware('auth')->get('/getClients', [clientsController::class, 'getClients']);
 /*Route::middleware('auth')->get('/getClients', function(Request $request){
