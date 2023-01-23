@@ -18,7 +18,7 @@ class creditsController extends Controller
         $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
         $sum += $this->businessTypeScore($request->business_type);var_dump($this->businessTypeScore($request->business_type));
 
-        return $sum > $cutoff;
+        return $sum >= $cutoff;
 
     }
 
@@ -100,7 +100,7 @@ class creditsController extends Controller
         $sum = 0;
         $cutoff = 2;
         if(!$this->creditWorthiness($request)){
-            return false;
+            return response("Credit can not be issued.", 422);
         }
 
         $sum += $this->payment_history($request->payment_history);
