@@ -15,6 +15,7 @@ use App\Http\Controllers\creditsController;
 |
 */
 Route::middleware('auth:api')->post('/creditWorthiness', [creditsController::class, 'creditWorthiness']);
+Route::middleware('auth:api')->post('/creditScore', [creditsController::class, 'creditScore']);
 Route::middleware('auth:api')->get('/businessExperienceScore/{date}', [creditsController::class, 'businessExperienceScore']);
 Route::middleware('auth:api')->post('/test', [clientsController::class, 'test']);
 Route::middleware('auth:api')->post('/sum', function(Request $request){

@@ -8,10 +8,7 @@ class creditsController extends Controller
 {
     public function creditWorthiness(Request $request){
         $this->validate($request, [
-            "created_at" => "required",
-            "presale_estimation"=> "required",
-            "last_order_date" => "required",
-            "business_type" => "required"
+
         ]);
         $sum = 0;
         $cutoff = 2;
@@ -21,7 +18,7 @@ class creditsController extends Controller
         $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
         $sum += $this->businessTypeScore($request->business_type);var_dump($this->businessTypeScore($request->business_type));
 
-        return $sum;
+        return $sum > $cutoff;
 
     }
 
@@ -94,7 +91,81 @@ class creditsController extends Controller
             "credit_utilization" => "required",
             "item_type" => "required",
             "transaction_history" => "required",
-            "business_activity" => "required"
+            "created_at" => "required",
+            "presale_estimation"=> "required",
+            "last_order_date" => "required",
+            "business_type" => "required"
         ]);
+
+        $sum = 0;
+        $cutoff = 2;
+        if(!$this->creditWorthiness($request)){
+            return false;
+        }
+
+        $sum += $this->payment_history($request->payment_history);
+        $sum += $this->credit_utilization($request->credit_utilization);
+        $sum += $this->item_type($request->item_type);
+        $sum += $this->transaction_history($request->transaction_history);
+        $sum += $this->last_order_score($request->last_order_date);
+
+        return $sum;
+    }
+
+    public function payment_history($payment_history){
+        if($payment_history == 'NO_CREDIT'){
+            return 0*0.35;
+        }
+        elseif($payment_history == 'PAID_ON_TIME'){
+            return 1*0.35;
+        }
+        elseif($payment_history == 'PAID_LATE'){
+            return -1*0.35;
+        }
+        elseif($payment_history == 'DEFAULT'){
+            return -5*0.35;
+        }
+    }
+
+    public function credit_utilization($credit_utilization){
+        if($credit_utilization == 'NO_DEBT'){
+            return 4*0.3;
+        }
+        elseif($credit_utilization == 'HALF_PAID'){
+            return 2*0.3;
+        }
+        elseif($credit_utilization == 'UNPAID_BILL'){
+            return -1*0.3;
+        }
+        elseif($credit_utilization == 'EXCEED_LIMIT'){
+            return -2*0.3;
+        }
+    }
+
+    public function item_type($item_type){
+        if($item_type == 'BEVERAGE'){
+            return 1*0.1;
+        }
+        elseif($item_type == 'HOUSEHOLD'){
+            return 3*0.1;
+        }
+        elseif($item_type == 'FOOD'){
+            return 4*0.1;
+        }
+    }
+
+    public function transaction_history($transaction){
+        if($transaction < 100000){
+            return 1*0.15;
+        }
+        elseif($transaction >= 100000 && $transaction < 200000){
+            return 2*0.15;
+        }
+        elseif($transaction >= 200000 && $transaction < 300000){
+            return 3*0.15;
+        }
+        elseif($transaction >= 300000){
+            return 4*0.15;
+        }
     }
 }
