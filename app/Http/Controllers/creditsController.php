@@ -56,16 +56,16 @@ class creditsController extends Controller
 
     public function businessActivityScore($latest_order_date){
         
-        if(Carbon::now()->diffInDays($latest_order_date->addMonths(3)) >= 90){
+        if(Carbon::now()->diffInDays($latest_order_date) >= 90){
             return 1*0.25;
         }
-        elseif(Carbon::now()->diffInDays($latest_order_date->subMonths(3)->addMonths(2)) >= 60 && Carbon::now()->diffInDays($latest_order_date->subMonths(3)->addMonths(2)) < 90){
+        elseif(Carbon::now()->diffInDays($latest_order_date) >= 60 && Carbon::now()->diffInDays($latest_order_date) < 90){
             return 2*0.25;
         }
-        elseif(Carbon::now()->diffInDays($latest_order_date->subMonths(2)->addMonths(1)) >= 30 && Carbon::now()->diffInDays($latest_order_date->subMonths(2)->addMonths(1)) < 60){
+        elseif(Carbon::now()->diffInDays($latest_order_date) >= 30 && Carbon::now()->diffInDays($latest_order_date) < 60){
             return 3*0.25;
         }
-        elseif(Carbon::now()->diffInDays($latest_order_date->subMonths(1)) < 30){
+        elseif(Carbon::now()->diffInDays($latest_order_date) < 30){
             return 4*0.25;
         }
     }
@@ -171,16 +171,16 @@ class creditsController extends Controller
 
     public function last_order_score($latest_order_date){
         
-        if(Carbon::now()->diffInDays($latest_order_date->addMonths(3)) >= 90){
+        if(Carbon::now()->diffInDays($latest_order_date) >= 90){
             return 1*0.1;
         }
-        elseif(Carbon::now()->diffInDays($latest_order_date->subMonths(3)->addMonths(2)) >= 60 && Carbon::now()->diffInDays($latest_order_date->subMonths(3)->addMonths(2)) < 90){
+        elseif(Carbon::now()->diffInDays($latest_order_date) >= 60 && Carbon::now()->diffInDays($latest_order_date) < 90){
             return 2*0.1;
         }
-        elseif(Carbon::now()->diffInDays($latest_order_date->subMonths(2)->addMonths(1)) >= 30 && Carbon::now()->diffInDays($latest_order_date->subMonths(2)->addMonths(1)) < 60){
+        elseif(Carbon::now()->diffInDays($latest_order_date) >= 30 && Carbon::now()->diffInDays($latest_order_date) < 60){
             return 3*0.1;
         }
-        elseif(Carbon::now()->diffInDays($latest_order_date->subMonths(1)) < 30){
+        elseif(Carbon::now()->diffInDays($latest_order_date) < 30){
             return 4*0.1;
         }
     }
