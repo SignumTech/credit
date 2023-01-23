@@ -168,4 +168,20 @@ class creditsController extends Controller
             return 4*0.15;
         }
     }
+
+    public function last_order_score($latest_order_date){
+        
+        if(Carbon::now()->greaterThan($latest_order_date->addMonths(3))){
+            return 1*0.1;
+        }
+        elseif(Carbon::now()->diffInMonths($latest_order_date->subMonths(3)->addMonths(2)) == 0){
+            return 2*0.1;
+        }
+        elseif(Carbon::now()->diffInMonths($latest_order_date->subMonths(2)->addMonths(1)) == 0){
+            return 3*0.1;
+        }
+        else{
+            return 4*0.1;
+        }
+    }
 }
