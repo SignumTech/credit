@@ -24,16 +24,16 @@ class creditsController extends Controller
 
     public function businessExperienceScore($created_at){
         
-        if(Carbon::now()->lessThan($created_at->addMonths(6))){
+        if(Carbon::now()->diffInDays($created_at) < 180){
             return 1*0.25;
         }
-        elseif(Carbon::now()->diffInMonths($created_at->subMonths(6)->addMonths(6)) == 0){
+        elseif(Carbon::now()->diffInDays($created_at) >= 180 && Carbon::now()->diffInDays($created_at) < 210){
             return 2*0.25;
         }
-        elseif(Carbon::now()->diffInMonths($created_at->subMonths(6)->addMonths(12)) <= 6 && Carbon::now()->diffInMonths($created_at->subMonths(6)->addMonths(12)) >0){
+        elseif(Carbon::now()->diffInDays($created_at) >= 210 && Carbon::now()->diffInDays($created_at) < 366){
             return 3*0.25;
         }
-        else{
+        elseif(Carbon::now()->diffInDays($created_at) >= 366){
             return 4*0.25;
         }
 
