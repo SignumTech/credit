@@ -107,7 +107,7 @@ class creditsController extends Controller
         $sum += $this->credit_utilization($request->credit_utilization);
         $sum += $this->item_type($request->item_type);
         $sum += $this->transaction_history($request->transaction_history);
-        $sum += $this->last_order_score($request->last_order_date);
+        $sum += $this->last_order_score(Carbon::parse($request->last_order_date));
 
         return $sum;
     }
