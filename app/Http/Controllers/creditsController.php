@@ -86,6 +86,7 @@ class creditsController extends Controller
     }
 
     public function creditScore(Request $request){
+        return 'hello';
         $this->validate($request, [
             "payment_history" => "required",
             "credit_utilization" => "required",
