@@ -13,10 +13,10 @@ class creditsController extends Controller
         $sum = 0;
         $cutoff = 2;
 
-        $sum += $this->businessExperienceScore(Carbon::parse($request->created_at));var_dump($this->businessExperienceScore(Carbon::parse($request->created_at)));
-        $sum += $this->preSaleEstimationScore($request->presale_estimation);var_dump($this->preSaleEstimationScore($request->presale_estimation));
-        $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
-        $sum += $this->businessTypeScore($request->business_type);var_dump($this->businessTypeScore($request->business_type));
+        $sum += $this->businessExperienceScore(Carbon::parse($request->created_at));//var_dump($this->businessExperienceScore(Carbon::parse($request->created_at)));
+        $sum += $this->preSaleEstimationScore($request->presale_estimation);//var_dump($this->preSaleEstimationScore($request->presale_estimation));
+        $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));//var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
+        $sum += $this->businessTypeScore($request->business_type);//var_dump($this->businessTypeScore($request->business_type));
 
         return $sum >= $cutoff;
 
