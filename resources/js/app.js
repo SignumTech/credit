@@ -31,7 +31,6 @@ Vue.component('app', require('./components/app.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-store.dispatch('auth/permissions')
 store.dispatch('auth/me').then(() => {
    router.beforeEach((to, from, next) => {
        

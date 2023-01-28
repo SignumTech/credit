@@ -52,8 +52,8 @@ import { mapActions } from 'vuex'
 export default {
     name: 'SignIn',
     components: {
-    PulseLoader,
-    BounceLoader
+        PulseLoader,
+        BounceLoader
     },
     data () {
     return {
@@ -92,7 +92,7 @@ export default {
         this.loading = true
         await this.signIn(this.form)
         .then( response =>{
-            window.location.replace('/dashboard')
+            window.location.replace('/')
             this.loading = false
         })
         .catch( error =>{

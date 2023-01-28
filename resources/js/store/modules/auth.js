@@ -6,7 +6,6 @@ export default({
     state: {
       authenticated: false,
       user: null,
-      permissions: {},
       notifications: []
     },
   
@@ -19,9 +18,6 @@ export default({
         return state.user
       },
 
-      permissions: state => {
-        return state.permissions
-      }
     },
   
     mutations: {
@@ -33,9 +29,6 @@ export default({
         state.user = value
       },
 
-      SET_PERMISSIONS (state, value){
-        state.permissions = value
-      }
     },
   
     actions: {
@@ -52,12 +45,6 @@ export default({
           await axios.post('/logout')
 
           return dispatch('me')
-        },
-        permissions ({ commit }){
-        return axios.get('/getStaffPermissions')
-          .then( (response) => {
-            commit('SET_PERMISSIONS', JSON.parse(response.data.permissions))  
-          })
         },
         me ({ commit }) {
         return axios.get('/user').then((response) => {

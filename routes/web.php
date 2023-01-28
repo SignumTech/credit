@@ -15,9 +15,6 @@ use Carbon\Carbon;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 Route::get('/test', function () {
     dd(Carbon::now()->diffInDays(Carbon::parse('2022-12-01'),false));
 });
@@ -28,6 +25,11 @@ Route::middleware('auth')->get('/getClients', [clientsController::class, 'getCli
 Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/', function () {
+    return view('home');
+});
 Auth::routes();
-
+Route::any('{slug}', function () {
+    return view('home');
+});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
