@@ -7,7 +7,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+import store from './store'
 import VModal from 'vue-js-modal'
+import router from './router'
 import 'vue-js-modal/dist/styles.css'
 Vue.use(VModal)
 /**
@@ -29,6 +31,21 @@ Vue.component('app', require('./components/app.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
+store.dispatch('auth/permissions')
+store.dispatch('auth/me').then(() => {
+   router.beforeEach((to, from, next) => {
+       
+       if (to.name !== 'Login' && !store.state.auth.authenticated ){
+         next({ name: 'Login' })
+       } 
+       else{
+         next()
+       
+       } 
+    })
+   const app = new Vue({
+       el: '#app',
+       store,
+       router
+   });
 });
