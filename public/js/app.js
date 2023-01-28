@@ -5433,11 +5433,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -5456,48 +5451,31 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       valErrors: false,
       phone_no: null,
       form: {
-        phone_no: null,
-        country_code: null,
+        email: null,
         password: null
-      },
-      country_code: null
+      }
     };
   },
-  methods: _objectSpread(_objectSpread({
-    onSelect: function onSelect(_ref) {
-      var name = _ref.name,
-        iso2 = _ref.iso2,
-        dialCode = _ref.dialCode;
-      this.form.country_code = dialCode;
-    }
-  }, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
     signIn: 'auth/signIn'
   })), {}, {
-    formatPhoneNo: function formatPhoneNo(phone_no) {
-      if (phone_no.length == 10 || phone_no.charAt(0) == '0') {
-        return phone_no.substring(1);
-      } else {
-        return phone_no;
-      }
-    },
     submit: function submit() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this.form.phone_no = _this.formatPhoneNo(_this.form.phone_no);
               _this.loading = true;
-              _context.next = 4;
+              _context.next = 3;
               return _this.signIn(_this.form).then(function (response) {
                 window.location.replace('/');
                 _this.loading = false;
               })["catch"](function (error) {
                 _this.valErrors = true;
               });
-            case 4:
+            case 3:
               _this.loading = false;
-            case 5:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -30061,7 +30039,10 @@ var render = function () {
                                   staticStyle: { "font-size": "20px" },
                                 }),
                                 _c("strong", [
-                                  _vm._v(" " + _vm._s(_vm.user.name)),
+                                  _vm._v(
+                                    " " +
+                                      _vm._s(_vm.$store.state.auth.user.name)
+                                  ),
                                 ]),
                               ]
                             ),
@@ -30183,46 +30164,36 @@ var render = function () {
               },
               [
                 _c("div", [
-                  _c(
-                    "div",
-                    { staticClass: "input-group" },
-                    [
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _c("vue-country-code", {
-                        attrs: { enabledCountryCode: true },
-                        on: { onSelect: _vm.onSelect },
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.phone_no,
-                            expression: "form.phone_no",
-                          },
-                        ],
-                        staticClass: "form-control form-control-auth",
-                        attrs: {
-                          required: "",
-                          placeholder: "Phone Number",
-                          name: "email",
-                          id: "email",
+                  _c("div", { staticClass: "input-group" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.email,
+                          expression: "form.email",
                         },
-                        domProps: { value: _vm.form.phone_no },
-                        on: {
-                          input: function ($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.form, "phone_no", $event.target.value)
-                          },
+                      ],
+                      staticClass: "form-control form-control-auth",
+                      attrs: {
+                        required: "",
+                        placeholder: "E-mail",
+                        name: "email",
+                        id: "email",
+                      },
+                      domProps: { value: _vm.form.email },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "email", $event.target.value)
                         },
-                      }),
-                    ],
-                    1
-                  ),
+                      },
+                    }),
+                  ]),
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "mt-5" }, [
@@ -30325,7 +30296,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "input-group-text bg-brand text-white" }, [
-      _c("span", { staticClass: "fa fa-phone" }),
+      _c("span", { staticClass: "fa fa-envelope" }),
     ])
   },
   function () {

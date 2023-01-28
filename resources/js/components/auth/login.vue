@@ -9,14 +9,9 @@
             <form action="#" @submit.prevent="submit">
                 <div>
                     <div class="input-group">
-                        <span class="input-group-text bg-brand text-white"><span class="fa fa-phone"></span></span>
-                        <vue-country-code
-                            @onSelect="onSelect"
-                            :enabledCountryCode="true"
-                        >
-                        </vue-country-code>
+                        <span class="input-group-text bg-brand text-white"><span class="fa fa-envelope"></span></span>
                         
-                        <input class="form-control form-control-auth" required placeholder="Phone Number" name="email" id="email" v-model="form.phone_no">
+                        <input class="form-control form-control-auth" required placeholder="E-mail" name="email" id="email" v-model="form.email">
                     </div>
                 </div>
                 <div class="mt-5">
@@ -63,32 +58,17 @@ export default {
         valErrors:false,
         phone_no:null,
         form: {
-            phone_no: null,
-            country_code: null,
+            email: null,
             password: null,
         },
-        country_code: null
     }
     },
 
     methods: {
-        onSelect({name, iso2, dialCode}){
-            this.form.country_code = dialCode
-        },
     ...mapActions({
         signIn: 'auth/signIn'
     }),
-    formatPhoneNo(phone_no){
-        if(phone_no.length == 10 || phone_no.charAt(0)=='0'){
-            
-            return phone_no.substring(1)
-        }
-        else{
-            return phone_no
-        }
-    },
     async submit () {
-        this.form.phone_no = this.formatPhoneNo(this.form.phone_no)
         this.loading = true
         await this.signIn(this.form)
         .then( response =>{

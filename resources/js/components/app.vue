@@ -11,7 +11,7 @@
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item px-3">
                                 <router-link class="a-admin text-white" to="/profile">
-                                    <span class="fa fa-user-cog pr-2" style="font-size: 20px"></span><strong> {{ user.name }}</strong>
+                                    <span class="fa fa-user-cog pr-2" style="font-size: 20px"></span><strong> {{ $store.state.auth.user.name }}</strong>
                                 </router-link>
                             </li>
                             <li class="nav-item px-3">
