@@ -156,6 +156,12 @@ class clientsController extends Controller
         $parameters->save();
     }
 
+    public function updateCreditScore(Request $request, $id){
+        $parameters = Parameter::where('client_id', $id)->first();
+        $parameters->credit_score = json_encode($request->data);
+        $parameters->save();
+    }
+
 
 
     

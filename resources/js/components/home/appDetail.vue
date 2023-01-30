@@ -116,7 +116,7 @@
                                 <th>Parameter</th>
                                 <th>Weight</th>
                                 <th>Values</th>
-                                <th><span class="fa fa-edit"></span></th>
+                                <th><span @click="editCreditScore()" class="fa fa-edit"></span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -203,6 +203,7 @@
 </div>    
 </template>
 <script>
+import EditCreditScoreModal from './editCreditScoreModal.vue'
 import editWorthinessModalVue from './editWorthinessModal.vue'
 export default {
     data(){
@@ -224,6 +225,14 @@ export default {
                 editWorthinessModalVue,
                 {worthiness:this.worthiness, client_id:this.$route.params.id},
                 {height:'auto',width:'80%'},
+                {'closed':this.getClient}
+            )
+        },
+        editCreditScore(){
+            this.$modal.show(
+                EditCreditScoreModal,
+                {credit_score:this.credit_score, client_id:this.$route.params.id},
+                {height:'auto',width:'90%'},
                 {'closed':this.getClient}
             )
         },
