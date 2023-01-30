@@ -19,6 +19,10 @@ Route::get('/test', function () {
     dd(Carbon::now()->diffInDays(Carbon::parse('2022-12-01'),false));
 });
 Route::middleware('auth')->get('/getClients', [clientsController::class, 'getClients']);
+Route::middleware('auth')->get('/getParameters/{id}', [clientsController::class, 'getParameters']);
+Route::middleware('auth')->get('/showClient/{id}', [clientsController::class, 'showClient']);
+Route::middleware('auth')->put('/initializeParameters/{id}', [clientsController::class, 'initializeParameters']);
+Route::middleware('auth')->put('/updateWorthiness/{id}', [clientsController::class, 'updateWorthiness']);
 /*Route::middleware('auth')->get('/getClients', function(Request $request){
     return $request->user()->clients;
 });*/
@@ -32,4 +36,8 @@ Auth::routes();
 Route::any('{slug}', function () {
     return view('home');
 });
+Route::any('/app/{slug}', function () {
+    return view('home');
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
