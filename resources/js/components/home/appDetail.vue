@@ -11,7 +11,7 @@
                         <strong>Client ID:</strong> {{ client.id }}
                     </h6>
                     <h6>
-                        <strong>Client Secret: </strong><span class="fa fa-eye-slash" @click="showSecret(client)"></span>
+                        <strong>Client Secret: </strong><span class="fa fa-eye-slash" @click="showSecret()"></span>
                     </h6>
                     <h6>
                         <strong>Redirect URL: </strong><br>
@@ -29,6 +29,9 @@
         <div class="bg-white rounded-1 shadow-sm p-3 mt-3">
             <div class="row">
                 <div class="col-md-12">
+                    <h5 class="text-center"><strong>Credit Worthiness Parameters</strong></h5>
+                </div>
+                <div class="col-md-12 mt-3">
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -110,6 +113,9 @@
         <div class="bg-white rounded-1 shadow-sm p-3 mt-3">
             <div class="row">
                 <div class="col-md-12">
+                    <h5 class="text-center"><strong>Credit Score Parameters</strong></h5>
+                </div>
+                <div class="col-md-12 mt-3">
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -203,6 +209,8 @@
 </div>    
 </template>
 <script>
+import addModalVue from './addModal.vue'
+import showSecretVue from './showSecret.vue'
 import EditCreditScoreModal from './editCreditScoreModal.vue'
 import editWorthinessModalVue from './editWorthinessModal.vue'
 export default {
@@ -220,6 +228,13 @@ export default {
         this.getParameters()
     },
     methods:{
+        showSecret(){
+            this.$modal.show(
+                showSecretVue,
+                {secret:this.client},
+                {height:'auto', width:'800px'}
+            )
+        },
         editWorthiness(){
             this.$modal.show(
                 editWorthinessModalVue,

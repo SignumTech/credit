@@ -17,14 +17,13 @@ class clientsController extends Controller
     }
 
     public function test(Request $request){
-        $this->validate($request, [
-            "test" => "required"
-        ]);
-        return "you posted ".$request->test;
+        return $request->user()->client;
     }
 
     public function showClient(Request $request, $id){
-        $data = $request->user()->clients->toArray();
+        $data = $request->user()->clients->makeVisible([
+            'secret'
+        ])->toArray();
         
         $data = Arr::where($data, function($value, $key) use ($id){
             return $value['id'] == $id;

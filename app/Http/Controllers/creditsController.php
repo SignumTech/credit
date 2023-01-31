@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Parameter;
 class creditsController extends Controller
 {
     public function creditWorthiness(Request $request){
-        $this->validate($request, [
 
-        ]);
         $sum = 0;
         $cutoff = 2;
 
