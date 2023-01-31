@@ -10,7 +10,7 @@ class creditsController extends Controller
     public function creditWorthiness(Request $request){
         $parameters = Parameter::where('client_id', $request->client_id)->first();
         $worthiness = json_decode($parameters->worthiness);
-        dd($worthiness);
+        dd($worthiness->created_at);
         $sum = 0;
         $cutoff = 2;
 
