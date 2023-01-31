@@ -10,79 +10,84 @@ class creditsController extends Controller
     public function creditWorthiness(Request $request){
         $parameters = Parameter::where('client_id', $request->client_id)->first();
         $worthiness = json_decode($parameters->worthiness);
-        dd($worthiness->created_at);
+        
         $sum = 0;
         $cutoff = 2;
 
-        $sum += $this->businessExperienceScore(Carbon::parse($request->created_at));//var_dump($this->businessExperienceScore(Carbon::parse($request->created_at)));
-        $sum += $this->preSaleEstimationScore($request->presale_estimation, );//var_dump($this->preSaleEstimationScore($request->presale_estimation));
-        $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));//var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
-        $sum += $this->businessTypeScore($request->business_type);//var_dump($this->businessTypeScore($request->business_type));
+        $sum += $this->businessExperienceScore(Carbon::parse($request->created_at),$worthiness->created_at);//var_dump($this->businessExperienceScore(Carbon::parse($request->created_at)));
+        $sum += $this->preSaleEstimationScore($request->presale_estimation, $worthiness->presale_estimation);//var_dump($this->preSaleEstimationScore($request->presale_estimation));
+        $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date, $worthiness->last_order_date));//var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
+        $sum += $this->businessTypeScore($request->business_type, $worthiness->business_type);//var_dump($this->businessTypeScore($request->business_type));
 
+        dd($sum);
         return $sum >= $cutoff;
 
     }
 
-    public function businessExperienceScore($created_at){
-        
+    public function businessExperienceScore($created_at, $worthiness){
+        $weight = $worthiness->weight;
         if(Carbon::now()->diffInDays($created_at) < 180){
-            return 1*0.25;
+            return $worthiness->values->new*$weight;
         }
         elseif(Carbon::now()->diffInDays($created_at) >= 180 && Carbon::now()->diffInDays($created_at) < 210){
-            return 2*0.25;
+            return $worthiness->values->six*$weight;
         }
         elseif(Carbon::now()->diffInDays($created_at) >= 210 && Carbon::now()->diffInDays($created_at) < 366){
-            return 3*0.25;
+            return $worthiness->values->six_to_twelve*$weight;
         }
         elseif(Carbon::now()->diffInDays($created_at) >= 366){
-            return 4*0.25;
+            return $worthiness->values->one_and_up*$weight;
         }
 
     }
 
-    public function preSaleEstimationScore($estimation){
+    public function preSaleEstimationScore($estimation, $worthiness){
+        $weight = $worthiness->weight;
+
         if($estimation == 'BAD'){
-            return 1*0.25;
+            return $worthiness->values->BAD * $weight;
         }
         elseif($estimation == 'MEDIUM'){
-            return 2*0.25;
+            return $worthiness->values->MEDIUM * $weight;
         }
         elseif($estimation == 'GOOD'){
-            return 3*0.25;
+            return $worthiness->values->GOOD * $weight;
         }
         elseif($estimation == 'EXCELLENT'){
-            return 4*0.25;
+            return $worthiness->values->EXCELLENT * $weight;
         }
     }
 
-    public function businessActivityScore($latest_order_date){
-        
+    public function businessActivityScore($latest_order_date, $worthiness){
+        $weight = $worthiness->weight;
+
         if(Carbon::now()->diffInDays($latest_order_date) >= 90){
-            return 1*0.25;
+            return $worthiness->values->three_and_up*$weight;
         }
         elseif(Carbon::now()->diffInDays($latest_order_date) >= 60 && Carbon::now()->diffInDays($latest_order_date) < 90){
-            return 2*0.25;
+            return $worthiness->values->two*$weight;
         }
         elseif(Carbon::now()->diffInDays($latest_order_date) >= 30 && Carbon::now()->diffInDays($latest_order_date) < 60){
-            return 3*0.25;
+            return $worthiness->values->one*$weight;
         }
         elseif(Carbon::now()->diffInDays($latest_order_date) < 30){
-            return 4*0.25;
+            return $worthiness->values->one_less*$weight;
         }
     }
 
-    public function businessTypeScore($business_type){
+    public function businessTypeScore($business_type, $worthiness){
+        $weight = $worthiness->weight;
         if($business_type == 'KIOSK'){
-            return 1*0.25;
+            return $worthiness->values->KIOSK*$weight;
         }
         elseif($business_type == 'OUTLET'){
-            return 2*0.25;
+            return $worthiness->values->OUTLET*$weight;
         }
         elseif($business_type == 'MINIMARKET'){
-            return 3*0.25;
+            return $worthiness->values->MINIMARKET*$weight;
         }
         elseif($business_type == 'SUPERMARKET'){
-            return 4*0.25;
+            return $worthiness->values->SUPERMARKET*$weight;
         }
     }
 
