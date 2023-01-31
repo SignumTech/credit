@@ -17,7 +17,7 @@ class clientsController extends Controller
     }
 
     public function test(Request $request){
-        return $request->user();
+        return auth()->user()->token()->client->id;
     }
 
     public function showClient(Request $request, $id){

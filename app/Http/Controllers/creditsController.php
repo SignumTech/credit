@@ -8,12 +8,14 @@ use App\Models\Parameter;
 class creditsController extends Controller
 {
     public function creditWorthiness(Request $request){
-
+        $parameters = Parameter::where('client_id', $request->client_id)->first();
+        $worthiness = json_decode($parameters);
+        dd($worthiness);
         $sum = 0;
         $cutoff = 2;
 
         $sum += $this->businessExperienceScore(Carbon::parse($request->created_at));//var_dump($this->businessExperienceScore(Carbon::parse($request->created_at)));
-        $sum += $this->preSaleEstimationScore($request->presale_estimation);//var_dump($this->preSaleEstimationScore($request->presale_estimation));
+        $sum += $this->preSaleEstimationScore($request->presale_estimation, );//var_dump($this->preSaleEstimationScore($request->presale_estimation));
         $sum += $this->businessActivityScore(Carbon::parse($request->last_order_date));//var_dump($this->businessActivityScore(Carbon::parse($request->last_order_date)));
         $sum += $this->businessTypeScore($request->business_type);//var_dump($this->businessTypeScore($request->business_type));
 
@@ -93,14 +95,17 @@ class creditsController extends Controller
             "created_at" => "required",
             "presale_estimation"=> "required",
             "last_order_date" => "required",
-            "business_type" => "required"
+            "business_type" => "required",
+            "client_id" => "required"
         ]);
-
+        
         $sum = 0;
         $cutoff = 2;
         if(!$this->creditWorthiness($request)){
             return response("Credit can not be issued.", 422);
         }
+        $parameters = Parameter::where('client_id', $request->client_id)->first();
+
 
         $sum += $this->payment_history($request->payment_history);
         $sum += $this->credit_utilization($request->credit_utilization);
