@@ -17,7 +17,7 @@ class clientsController extends Controller
     }
 
     public function test(Request $request){
-        return $request;
+        return $request->user();
     }
 
     public function showClient(Request $request, $id){
