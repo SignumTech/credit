@@ -113,76 +113,87 @@ class creditsController extends Controller
         if(!$this->creditWorthiness($request)){
             return response("Credit can not be issued.", 422);
         }
-        
+        $creditScore = json_decode($parameters->credit_score);
 
 
-        $sum += $this->payment_history($request->payment_history);
-        $sum += $this->credit_utilization($request->credit_utilization);
-        $sum += $this->item_type($request->item_type);
-        $sum += $this->transaction_history($request->transaction_history);
-        $sum += $this->last_order_score(Carbon::parse($request->last_order_date));
+        $sum += $this->payment_history($request->payment_history,$creditScore->payment_history);
+        $sum += $this->credit_utilization($request->credit_utilization,$creditScore->credit_utilization);
+        $sum += $this->item_type($request->item_type,$creditScore->item_type);
+        $sum += $this->transaction_history($request->transaction_history,$creditScore->transaction_history);
+        $sum += $this->last_order_score(Carbon::parse($request->last_order_date),$creditScore->last_order_date);
 
         return $sum;
     }
 
-    public function payment_history($payment_history){
+    public function payment_history($payment_history, $creditScore){
+
+        $weight = $creditScore->weight;
+
         if($payment_history == 'NO_CREDIT'){
-            return 0*0.35;
+            return $creditScore->values->NO_CREDIT*$weight;
         }
         elseif($payment_history == 'PAID_ON_TIME'){
-            return 1*0.35;
+            return $creditScore->values->PAID_ON_TIME*$weight;
         }
         elseif($payment_history == 'PAID_LATE'){
-            return -1*0.35;
+            return $creditScore->values->PAID_LATE*$weight;
         }
         elseif($payment_history == 'DEFAULT'){
-            return -5*0.35;
+            return $creditScore->values->DEFAULT*$weight;
         }
     }
 
-    public function credit_utilization($credit_utilization){
+    public function credit_utilization($credit_utilization, $creditScore){
+
+        $weight = $creditScore->weight;
         if($credit_utilization == 'NO_DEBT'){
-            return 4*0.3;
+            return $creditScore->values->NO_DEBT*$weight;
         }
         elseif($credit_utilization == 'HALF_PAID'){
-            return 2*0.3;
+            return $creditScore->values->HALF_PAID*$weight;
         }
         elseif($credit_utilization == 'UNPAID_BILL'){
-            return -1*0.3;
+            return $creditScore->values->UNPAID_BILL*$weight;
         }
         elseif($credit_utilization == 'EXCEED_LIMIT'){
-            return -2*0.3;
+            return $creditScore->values->EXCEED*$weight;
         }
     }
 
-    public function item_type($item_type){
-        if($item_type == 'BEVERAGE'){
-            return 1*0.1;
+    public function item_type($item_type, $creditScore){
+
+        $weight = $creditScore->weight;
+        if($item_type == 'CATEGORY_A'){
+            return $creditScore->values->CATEGORY_A*$weight;
         }
-        elseif($item_type == 'HOUSEHOLD'){
-            return 3*0.1;
+        elseif($item_type == 'CATEGORY_B'){
+            return $creditScore->values->CATEGORY_B*$weight;
         }
-        elseif($item_type == 'FOOD'){
-            return 4*0.1;
+        elseif($item_type == 'CATEGORY_C'){
+            return $creditScore->values->CATEGORY_C*$weight;
         }
     }
 
-    public function transaction_history($transaction){
+    public function transaction_history($transaction, $creditScore){
+
+        $weight = $creditScore->weight;
         if($transaction < 100000){
-            return 1*0.15;
+            return $creditScore->values->ONE_LESS*$weight;
         }
         elseif($transaction >= 100000 && $transaction < 200000){
-            return 2*0.15;
+            return $creditScore->values->ONE_TO_TWO*$weight;
         }
         elseif($transaction >= 200000 && $transaction < 300000){
-            return 3*0.15;
+            return $creditScore->values->TWO_TO_THREE*$weight;
         }
         elseif($transaction >= 300000){
-            return 4*0.15;
+            return $creditScore->values->THREE_ABOVE*$weight;
         }
     }
 
-    public function last_order_score($latest_order_date){
+    public function last_order_score($latest_order_date, $creditScore){
+
+        $weight = $creditScore->weight;
         
         if(Carbon::now()->diffInDays($latest_order_date) >= 90){
             return 1*0.1;
