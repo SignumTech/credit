@@ -10,6 +10,9 @@ class creditsController extends Controller
     public function creditWorthiness(Request $request){
         $parameters = Parameter::where('client_id', $request->client_id)->first();
         
+        if($parameters==null){
+            return response("Parametes are not initialized!", 422);
+        }
         $worthiness = json_decode($parameters->worthiness);
         
         $sum = 0;
