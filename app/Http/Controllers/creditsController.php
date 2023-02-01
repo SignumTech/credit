@@ -124,9 +124,9 @@ class creditsController extends Controller
         $sum += $this->last_order_score(Carbon::parse($request->last_order_date),$creditScore->last_order_date);
 
         $maxScore = $this->getMaxScore($creditScore);
-        $data["max_score"] = $maxScore;
-        $data["credit_score"] = $sum;
-        $data["available_credit"] = $sum/$maxScore * $request->transaction_history;
+        $data["max_score"] = round($maxScore,2);
+        $data["credit_score"] = round($sum,2);
+        $data["available_credit"] = round($sum/$maxScore * $request->transaction_history, 2);
         return $data;
     }
 
