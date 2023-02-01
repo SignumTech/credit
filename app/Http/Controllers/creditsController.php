@@ -214,7 +214,7 @@ class creditsController extends Controller
     public function getMaxScore($creditScore){
         $max_score = 0;
         foreach($creditScore as $score){
-            $max_score += $score->weight * $score->values->max; 
+            $max_score += $score->weight * $score->values->max(); 
         }
         dd($max_score);
     }
