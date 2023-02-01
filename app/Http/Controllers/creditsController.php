@@ -220,6 +220,7 @@ class creditsController extends Controller
         $max_score += $creditScore->credit_utilization->weight * collect($creditScore->credit_utilization->values)->flatten()->max();
         $max_score += $creditScore->transaction_history->weight * collect($creditScore->transaction_history->values)->flatten()->max();
 
-        return $max_score;
+        dd($max_score);
+        //return $max_score;
     }
 }
