@@ -178,7 +178,6 @@ class clientsController extends Controller
     public function updateWorthiness(Request $request, $id){
         $parameters = Parameter::where('client_id', $id)->first();
         $parameters->worthiness = json_encode($request->data);
-        $parameters->worthiness_cutoff = $request->worthiness_cutoff;
         $parameters->save();
 
         return $parameters;
