@@ -122,6 +122,8 @@ class creditsController extends Controller
         $sum += $this->transaction_history($request->transaction_history,$creditScore->transaction_history);
         $sum += $this->last_order_score(Carbon::parse($request->last_order_date),$creditScore->last_order_date);
 
+        $maxScore = $this->getMaxScore($creditScore);
+
         return $sum;
     }
 
@@ -207,5 +209,13 @@ class creditsController extends Controller
         elseif(Carbon::now()->diffInDays($latest_order_date) < 30){
             return 4*0.1;
         }
+    }
+
+    public function getMaxScore($creditScore){
+        $max_score = 0;
+        foreach($creditScore as $score){
+            $max_score += $score->weight * $score->values->max; 
+        }
+        dd($max_score);
     }
 }
