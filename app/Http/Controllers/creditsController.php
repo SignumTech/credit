@@ -13,7 +13,7 @@ class creditsController extends Controller
         $worthiness = json_decode($parameters->worthiness);
         
         $sum = 0;
-        $cutoff = 2;
+        $cutoff = $parameters->worthiness_cutoff;
 
         $sum += $this->businessExperienceScore(Carbon::parse($request->created_at),$worthiness->created_at);//var_dump($this->businessExperienceScore(Carbon::parse($request->created_at)));
         $sum += $this->preSaleEstimationScore($request->presale_estimation,$worthiness->presale_estimation);//var_dump($this->preSaleEstimationScore($request->presale_estimation));
@@ -224,6 +224,17 @@ class creditsController extends Controller
         $max_score += $creditScore->transaction_history->weight * collect($creditScore->transaction_history->values)->flatten()->max();
 
         
+        return $max_score;
+    }
+
+    public function worthinessMaxScore($worthiness){
+        $max_score = 0;
+
+        $max_score += $worthiness->created_at->weight * collect($worthiness->created_at->values)->flatten()->max();
+        $max_score += $worthiness->last_order_date->weight * collect($worthiness->last_order_date->values)->flatten()->max();
+        $max_score += $worthiness->presale_estimation->weight * collect($worthiness->presale_estimation->values)->flatten()->max();
+        $max_score += $worthiness->business_type->weight * collect($worthiness->business_type->values)->flatten()->max();
+
         return $max_score;
     }
 }

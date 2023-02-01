@@ -105,6 +105,22 @@
                         </tbody>
                     </table>
                     
+                    <table class="table table-sm mt-2">
+                        <thead>
+                            <tr>
+                                <th>Cutoff</th>
+                                <th>Worthiness Max Score</th>
+                                <th><span @click="editCutoff()" class="fa fa-edit float-end"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ parameters.worthiness_cutoff }}</td>
+                                <td>{{ parameters.max_worthiness }}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -213,6 +229,7 @@ import addModalVue from './addModal.vue'
 import showSecretVue from './showSecret.vue'
 import EditCreditScoreModal from './editCreditScoreModal.vue'
 import editWorthinessModalVue from './editWorthinessModal.vue'
+import editCutoffModalVue from './editCutoffModal.vue'
 export default {
     data(){
         return{
@@ -235,6 +252,14 @@ export default {
                 {height:'auto', width:'800px'}
             )
         },
+        editCutoff(){
+            this.$modal.show(
+                editCutoffModalVue,
+                {cutoff:this.parameters.worthiness_cutoff, max:this.parameters.max_worthiness, client_id:this.$route.params.id},
+                {height:'auto',width:'300px'},
+                {'closed':this.getClient}
+            )
+        },
         editWorthiness(){
             this.$modal.show(
                 editWorthinessModalVue,
@@ -248,7 +273,7 @@ export default {
                 EditCreditScoreModal,
                 {credit_score:this.credit_score, client_id:this.$route.params.id},
                 {height:'auto',width:'90%'},
-                {'closed':this.getClient}
+                {'closed':this.getParameters}
             )
         },
         async getClient(){

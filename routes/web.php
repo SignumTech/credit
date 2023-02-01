@@ -24,6 +24,7 @@ Route::middleware('auth')->get('/showClient/{id}', [clientsController::class, 's
 Route::middleware('auth')->put('/initializeParameters/{id}', [clientsController::class, 'initializeParameters']);
 Route::middleware('auth')->put('/updateWorthiness/{id}', [clientsController::class, 'updateWorthiness']);
 Route::middleware('auth')->put('/updateCreditScore/{id}', [clientsController::class, 'updateCreditScore']);
+Route::middleware('auth')->put('/updateCutoff/{id}', [clientsController::class, 'updateCutoff']);
 
 /*Route::middleware('auth')->get('/getClients', function(Request $request){
     return $request->user()->clients;

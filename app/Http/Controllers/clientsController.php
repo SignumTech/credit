@@ -37,8 +37,20 @@ class clientsController extends Controller
         if(!$parameters){
             return response("NOT INITIALIZED", 422);
         }
+        $parameters->max_worthiness = $this->worthinessMaxScoreDecoded(json_decode($parameters->worthiness));
 
         return $parameters;
+    }
+
+    public function worthinessMaxScoreDecoded($worthiness){
+        $max_score = 0;
+
+        $max_score += $worthiness->created_at->weight * collect($worthiness->created_at->values)->flatten()->max();
+        $max_score += $worthiness->last_order_date->weight * collect($worthiness->last_order_date->values)->flatten()->max();
+        $max_score += $worthiness->presale_estimation->weight * collect($worthiness->presale_estimation->values)->flatten()->max();
+        $max_score += $worthiness->business_type->weight * collect($worthiness->business_type->values)->flatten()->max();
+
+        return $max_score;
     }
 
     public function initializeParameters($id){
@@ -54,7 +66,7 @@ class clientsController extends Controller
         return response("Succussfully Initialized!", 200);
     }
 
-    public function initializeWorthiness($id){
+    public function initializeCreditScore($id){
         $data = [];
         $data["payment_history"]["weight"] = 0.35;
         $value = [];
@@ -95,8 +107,9 @@ class clientsController extends Controller
         $value['one_less'] = 4;
         $data['last_order_date']['values'] = $value;
 
-        $parameters = new Parameter;
-        $parameters->client_id = $id;
+        
+        $parameters = Parameter::where("client_id",$id)->first();
+        
         $parameters->credit_score = json_encode($data);
         $parameters->save();
         if($parameters){
@@ -108,7 +121,18 @@ class clientsController extends Controller
         
     }
 
-    public function initializeCreditScore($id){
+    public function worthinessMaxScore($worthiness){
+        $max_score = 0;
+        
+        $max_score += $worthiness['created_at']['weight'] * collect($worthiness['created_at']['values'])->flatten()->max();
+        $max_score += $worthiness['last_order_date']['weight'] * collect($worthiness['last_order_date']['values'])->flatten()->max();
+        $max_score += $worthiness['presale_estimation']['weight'] * collect($worthiness['presale_estimation']['values'])->flatten()->max();
+        $max_score += $worthiness['business_type']['weight'] * collect($worthiness['business_type']['values'])->flatten()->max();
+
+        return $max_score;
+    }
+
+    public function initializeWorthiness($id){
         $data = [];
         $data["created_at"]["weight"] = 0.25;
         $value = [];
@@ -142,8 +166,10 @@ class clientsController extends Controller
         $value['SUPERMARKET'] = 4;
         $data['business_type']['values'] = $value;
 
-        $parameters = Parameter::where("client_id",$id)->first();
+        $parameters = new Parameter;
+        $parameters->client_id = $id;
         $parameters->worthiness = json_encode($data);
+        $parameters->worthiness_cutoff = $this->worthinessMaxScore($data)/2;
         $parameters->save();
 
         return $parameters;
@@ -152,16 +178,30 @@ class clientsController extends Controller
     public function updateWorthiness(Request $request, $id){
         $parameters = Parameter::where('client_id', $id)->first();
         $parameters->worthiness = json_encode($request->data);
+        $parameters->worthiness_cutoff = $request->worthiness_cutoff;
         $parameters->save();
+
+        return $parameters;
     }
 
     public function updateCreditScore(Request $request, $id){
         $parameters = Parameter::where('client_id', $id)->first();
         $parameters->credit_score = json_encode($request->data);
         $parameters->save();
+
+        return $parameters;
     }
 
+    public function updateCutoff(Request $request, $id){
+        $this->validate($request, [
+            "cutoff" => "required"
+        ]);
 
+        $parameters = Parameter::where('client_id', $id)->first();
+        $parameters->worthiness_cutoff = $request->cutoff;
+        $parameters->save();
 
-    
+        return $parameters;
+    }
+
 }
