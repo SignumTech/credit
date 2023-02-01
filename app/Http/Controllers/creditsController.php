@@ -213,10 +213,13 @@ class creditsController extends Controller
 
     public function getMaxScore($creditScore){
         $max_score = 0;
-        dd(collect($creditScore->item_type->values)->flatten()->max());
-        /*$max_score += $creditScore->item_type->weight * $creditScore->item_type->values->CATEGORY_C;
-        $max_score += $creditScore->last_order_date->weight * $creditScore->last_order_date->values->one_less;
-        $max_score += $creditScore->payment_history->weight * $creditScore->payment_history->values->PAID_ON_TIME;
-        $max_score += $creditScore->credit_utilization->weight * $creditScore*/
+        
+        $max_score += $creditScore->item_type->weight * collect($creditScore->item_type->values)->flatten()->max();
+        $max_score += $creditScore->last_order_date->weight * collect($creditScore->last_order_date->values)->flatten()->max();
+        $max_score += $creditScore->payment_history->weight * collect($creditScore->payment_history->values)->flatten()->max();
+        $max_score += $creditScore->credit_utilization->weight * collect($creditScore->credit_utilization->values)->flatten()->max();
+        $max_score += $creditScore->transaction_history->weight * collect($creditScore->transaction_history->values)->flatten()->max();
+
+        return $max_score;
     }
 }
