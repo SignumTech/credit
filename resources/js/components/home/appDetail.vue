@@ -257,7 +257,7 @@ export default {
                 editCutoffModalVue,
                 {cutoff:this.parameters.worthiness_cutoff, max:this.parameters.max_worthiness, client_id:this.$route.params.id},
                 {height:'auto',width:'300px'},
-                {'closed':this.getClient}
+                {'closed':this.getParameters}
             )
         },
         editWorthiness(){
@@ -265,7 +265,7 @@ export default {
                 editWorthinessModalVue,
                 {worthiness:this.worthiness, client_id:this.$route.params.id},
                 {height:'auto',width:'80%'},
-                {'closed':this.getClient}
+                {'closed':this.getParameters}
             )
         },
         editCreditScore(){

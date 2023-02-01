@@ -5841,7 +5841,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         height: 'auto',
         width: '300px'
       }, {
-        'closed': this.getClient
+        'closed': this.getParameters
       });
     },
     editWorthiness: function editWorthiness() {
@@ -5852,7 +5852,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         height: 'auto',
         width: '80%'
       }, {
-        'closed': this.getClient
+        'closed': this.getParameters
       });
     },
     editCreditScore: function editCreditScore() {
