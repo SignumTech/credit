@@ -104,6 +104,7 @@ class creditsController extends Controller
             "business_type" => "required",
             "client_id" => "required"
         ]);
+        $data = [];
         $parameters = Parameter::where('client_id', $request->client_id)->first();
         if(!$parameters){
             return response("Parameters are not initialized!", 422);
@@ -123,8 +124,10 @@ class creditsController extends Controller
         $sum += $this->last_order_score(Carbon::parse($request->last_order_date),$creditScore->last_order_date);
 
         $maxScore = $this->getMaxScore($creditScore);
-
-        return $sum;
+        $data["max_score"] = $maxScore;
+        $data["credit_score"] = $sum;
+        $data["available_credit"] = $sum/$maxScore * $request->transaction_history;
+        return $data;
     }
 
     public function payment_history($payment_history, $creditScore){
@@ -220,7 +223,7 @@ class creditsController extends Controller
         $max_score += $creditScore->credit_utilization->weight * collect($creditScore->credit_utilization->values)->flatten()->max();
         $max_score += $creditScore->transaction_history->weight * collect($creditScore->transaction_history->values)->flatten()->max();
 
-        dd($max_score);
-        //return $max_score;
+        
+        return $max_score;
     }
 }
