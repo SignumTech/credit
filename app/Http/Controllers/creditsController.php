@@ -123,6 +123,11 @@ class creditsController extends Controller
         $sum += $this->transaction_history($request->transaction_history,$creditScore->transaction_history);
         $sum += $this->last_order_score(Carbon::parse($request->last_order_date),$creditScore->last_order_date);
 
+        if($sum < 0){
+            return response("Credit can not be issued.", 422);
+        }
+        
+
         $maxScore = $this->getMaxScore($creditScore);
         $data["max_score"] = round($maxScore,2);
         $data["credit_score"] = round($sum,2);
