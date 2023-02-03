@@ -102,6 +102,7 @@ class creditsController extends Controller
             "presale_estimation"=> "required",
             "last_order_date" => "required",
             "business_type" => "required",
+            "unpaid_credit" => "required",
             "client_id" => "required"
         ]);
         $data = [];
@@ -127,11 +128,12 @@ class creditsController extends Controller
             return response("Credit can not be issued.", 422);
         }
         
+        $available_credit = round($sum/$maxScore * $request->transaction_history, 2) - round($request->unpaid_credit);
 
         $maxScore = $this->getMaxScore($creditScore);
         $data["max_score"] = round($maxScore,2);
         $data["credit_score"] = round($sum,2);
-        $data["available_credit"] = round($sum/$maxScore * $request->transaction_history, 2);
+        $data["available_credit"] = $available_credit;
         return $data;
     }
 
