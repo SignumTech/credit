@@ -130,7 +130,10 @@ class creditsController extends Controller
         $maxScore = $this->getMaxScore($creditScore);
         $available_credit = round($sum/$maxScore * $request->transaction_history, 2) - round($request->unpaid_credit);
 
-        
+        if($available_credit < 0){
+            return response("Credit can not be issued.", 422);
+        }
+
         $data["max_score"] = round($maxScore,2);
         $data["credit_score"] = round($sum,2);
         $data["available_credit"] = $available_credit;
