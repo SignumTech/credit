@@ -105,7 +105,8 @@ class creditsController extends Controller
             "unpaid_credit" => "required",
             "credit_coeficient" => "required",
             "past_month_orders" => "required",
-            "client_id" => "required"
+            "client_id" => "required",
+            "credit_payment" => "required"
         ]);
         $data = [];
         $parameters = Parameter::where('client_id', $request->client_id)->first();
@@ -139,6 +140,7 @@ class creditsController extends Controller
         $data["max_score"] = round($maxScore,2);
         $data["credit_score"] = round($sum,2);
         $data["available_credit"] = $available_credit;
+        $data["credit_payment"] = $request->credit_payment;
         return $data;
     }
 
