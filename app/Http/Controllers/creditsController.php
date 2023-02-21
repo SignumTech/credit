@@ -140,7 +140,7 @@ class creditsController extends Controller
         $data["max_score"] = round($maxScore,2);
         $data["credit_score"] = round($sum,2);
         $data["available_credit"] = $available_credit;
-        $data["credit_payment"] = $request->credit_payment;
+        $data["credit_payment"] = (float)$request->credit_payment;
         return $data;
     }
 
