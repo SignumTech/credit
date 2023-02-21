@@ -103,6 +103,8 @@ class creditsController extends Controller
             "last_order_date" => "required",
             "business_type" => "required",
             "unpaid_credit" => "required",
+            "credit_coeficient" => "required",
+            "past_month_orders" => "required",
             "client_id" => "required"
         ]);
         $data = [];
@@ -128,7 +130,7 @@ class creditsController extends Controller
             return response("Credit can not be issued.", 422);
         }
         $maxScore = $this->getMaxScore($creditScore);
-        $available_credit = round($sum/$maxScore * $request->transaction_history, 2) - round($request->unpaid_credit);
+        $available_credit = round($sum/$maxScore * $request->past_month_orders * $request->credit_coeficient, 2) - round($request->unpaid_credit);
 
         if($available_credit < 0){
             return response("Credit can not be issued.", 422);
